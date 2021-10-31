@@ -1,0 +1,17 @@
+.header__user-email {
+  display: none;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #FFF;
+  padding-right: 24px;
+  margin: 0;
+}
+
+/* стили для экранов с разрешением менее 650px по ширине */
+@media screen and (max-width: 649px) {
+  .header__user-email {
+    font-size: 14px;
+    line-height: 17px;
+  }   
+}
