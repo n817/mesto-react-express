@@ -6,6 +6,9 @@ const usersRouter = require('./users');
 const cardsRouter = require('./cards');
 const { urlRegEx } = require('../configs');
 const NotFoundError = require('../errors/NotFoundError');
+const { requestLogger, errorLogger } = require('../middlewares/logger');
+
+router.use(requestLogger); // подключаем логгер запросов
 
 // проводит авторизацию пользователя
 router.post('/signin', celebrate({
@@ -31,7 +34,9 @@ router.use(auth); // мидлвэр авторизации (всем роута�
 router.use('/users', usersRouter); // localhost:PORT/users + usersRouter
 router.use('/cards', cardsRouter); // localhost:PORT/cards + cardsRouter
 
-router.use(errors());// обработчик ошибок celebrate
+router.use(errorLogger); // подключаем логгер ошибок
+
+router.use(errors()); // обработчик ошибок celebrate
 
 // обработка запросов на несуществующий роут
 router.use('*', () => {
