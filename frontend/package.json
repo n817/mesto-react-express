@@ -1,5 +1,4 @@
 {
-  "homepage": "https://github.com/n817/react-mesto-api-full",
   "name": "react-mesto-auth",
   "version": "0.1.0",
   "private": true,
@@ -18,8 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && scp -r ./build/* n817@178.154.197.133:/home/n817/mesto-frontend"
   },
   "eslintConfig": {
     "extends": [
