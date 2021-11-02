@@ -8,7 +8,7 @@ function Register({ onRegister }) {
       buttonText="Зарегистрироваться"
       onFormSubmit={onRegister}
     >
-      <Link to="/signin" className="form__link">
+      <Link to="/sign-in" className="form__link">
         Уже зарегистрированы? Войти
       </Link>
     </IdentityForm>

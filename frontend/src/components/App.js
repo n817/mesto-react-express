@@ -57,7 +57,7 @@ function App() {
         if (res.data) {
           setRegStatusError(false);
           setIsInfoTooltipOpen(true);
-          history.push('/signin');
+          history.push('/sign-in');
         }
       })
       .catch((err) => {
@@ -228,13 +228,13 @@ function App() {
         />
 
         <Switch>
-          <Route path="/signup">
+          <Route path="/sign-up">
             <Register
               onRegister={handleSignUp}
             />
           </Route>
 
-          <Route path="/signin">
+          <Route path="/sign-in">
             <Login
               onLogin={handleSignIn}
             />
