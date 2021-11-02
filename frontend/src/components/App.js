@@ -19,7 +19,7 @@ import AddPlacePopup from './AddPlacePopup';
 import Footer from './Footer';
 
 function App() {
-  
+
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -32,7 +32,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const history = useHistory();
 
-
+  /*
   // Если в локальном хранилище есть токен, то проверяем его валидность на сервере и авторизуем пользователя
   useEffect(() => {
     const currentToken = localStorage.getItem('token');
@@ -49,6 +49,7 @@ function App() {
       });
     }
   }, [history]);
+  */
 
   function handleSignUp({ email, password }) {
     auth.signUp({ email, password })
@@ -67,12 +68,12 @@ function App() {
   }
 
   function handleSignIn({ email, password }) {
-    auth.signIn({ email, password }) // user@test.com, 123456
+    auth.signIn({ email, password }) // test@test.com, 12345678
       .then((res) => {
         if (res) {
           setLoggedIn(true);
           setEmail(email);
-          localStorage.setItem('token', res.token);
+          // localStorage.setItem('token', res.token);
           history.push('/');
         }
       })
@@ -86,8 +87,8 @@ function App() {
   function handleSignOut() {
     setLoggedIn(false);
     setEmail('');
-    localStorage.removeItem('token');
-    console.log(localStorage.getItem('token'));
+    // localStorage.removeItem('token');
+    // console.log(localStorage.getItem('token'));
   }
 
   function handleEditAvatarClick(){
@@ -220,7 +221,7 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header 
+        <Header
           loggedIn={loggedIn}
           email={email}
           onSignOut={handleSignOut}
@@ -228,13 +229,13 @@ function App() {
 
         <Switch>
           <Route path="/sign-up">
-            <Register 
+            <Register
               onRegister={handleSignUp}
             />
           </Route>
 
           <Route path="/sign-in">
-            <Login 
+            <Login
               onLogin={handleSignIn}
             />
           </Route>
@@ -274,7 +275,7 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}/>
 
-        <InfoTooltip 
+        <InfoTooltip
           isOpen={isInfoTooltipOpen}
           regStatusError={regStatusError}
           onClose={closeAllPopups}

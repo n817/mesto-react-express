@@ -1,11 +1,9 @@
 import { apiSettings } from "./utils";
 
 class Api {
-  constructor({cardsUrl, userUrl, headers}) {
-    this._cardsUrl = cardsUrl;
-    this._userUrl = userUrl;
+  constructor({baseUrl, headers}) {
+    this._baseUrl = baseUrl;
     this._headers = headers;
-    this._authorization = headers.authorization;
   }
 
   // Проверка ответа сервера
@@ -18,7 +16,9 @@ class Api {
 
   // Получение информации о пользователе с сервера
   getUserInfo() {
-    return fetch(this._userUrl, {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      credentials: 'include', // теперь куки посылаются вместе с запросом
       headers: this._headers
     })
     .then(this._checkResponse)
@@ -26,8 +26,9 @@ class Api {
 
   // Загрузка новой информации о пользователе на сервер
   setUserInfo({name, about}) {
-    return fetch(this._userUrl, {
+    return fetch(`${this._baseUrl}/users/me`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: this._headers,
     body: JSON.stringify({
       name: name,
@@ -39,8 +40,9 @@ class Api {
 
   // Загрузка аватара пользователя на сервер
   setUserAvatar(newAvatarUrl) {
-    return fetch(`${this._userUrl}/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: this._headers,
     body: JSON.stringify({
       avatar: newAvatarUrl,
@@ -51,7 +53,9 @@ class Api {
 
   // Получение массива карточек с сервера
   getCardList() {
-    return fetch(this._cardsUrl, {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'GET',
+      credentials: 'include',
       headers: this._headers
     })
     .then(this._checkResponse)
@@ -59,8 +63,9 @@ class Api {
 
   // Загрузка новой карточки на сервер
   postNewCard({newCardName, newCardUrl}) {
-    return fetch(this._cardsUrl, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: newCardName,
@@ -72,8 +77,9 @@ class Api {
 
   // Лайк и удаление лайка карточки
   changeLikeCardStatus({isLiked, cardId}) {
-    return fetch(`${this._cardsUrl}/likes/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: `${isLiked ? 'DELETE' : 'PUT'}`,
+      credentials: 'include',
       headers: this._headers
     })
     .then(this._checkResponse)
@@ -81,8 +87,9 @@ class Api {
 
   // Удаление карточки на сервере
   deleteCard(cardId) {
-    return fetch(`${this._cardsUrl}/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
+      credentials: 'include',
       headers: this._headers
     })
     .then(this._checkResponse)

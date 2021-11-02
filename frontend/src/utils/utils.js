@@ -1,14 +1,8 @@
 const apiSettings = {
-  cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-22/cards',
-  userUrl: 'https://mesto.nomoreparties.co/v1/cohort-22/users/me',
+  baseUrl: 'http://api.mesto.n817.nomoredomains.xyz',
   headers: {
-    authorization: '515ca80d-3822-4c04-8086-34127dceee10',
     'Content-Type': 'application/json'
   }
 };
 
-const authSettings = {
-  baseUrl: 'http://api.mesto.n817.nomoredomains.xyz'
-};
-
-export {apiSettings, authSettings};
+export { apiSettings };

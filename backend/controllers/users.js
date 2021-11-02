@@ -20,7 +20,12 @@ const login = (req, res, next) => {
         JWT_SECRET,
         { expiresIn: '7d' },
       );
+      // отправим токен, браузер сохранит его в куках
       res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7, // cookie будут храниться 7 дней
+          httpOnly: true,
+        })
         .status(200)
         .send({ token, id: user._id });
     })

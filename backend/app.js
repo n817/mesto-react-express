@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes');
 const errorHandler = require('./errors/errorHandler');
@@ -13,6 +14,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(express.json()); // подключаем body-парсер
+app.use(cookieParser());// подключаем cookie-парсер
 app.use(routes); // подключаем маршруты
 app.use(errorHandler); // подключаем обработчик ошибок по умолчанию (код 500)
 

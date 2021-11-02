@@ -1,4 +1,4 @@
-import { authSettings } from "./utils";
+import { apiSettings } from "./utils";
 
 class Auth {
   constructor(baseUrl) {
@@ -18,6 +18,7 @@ class Auth {
     return fetch(`${this.baseUrl}/signup`,
       {
         method: 'POST',
+        credentials: 'include',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ password, email })
       }
@@ -28,9 +29,10 @@ class Auth {
   // Авторизация
   signIn({ email, password }) {
     return fetch(
-      `${this.baseUrl}/signin`, 
+      `${this.baseUrl}/signin`,
       {
         method: 'POST',
+        credentials: 'include',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({password, email})
       }
@@ -41,10 +43,11 @@ class Auth {
   // Проверка токена
   tokenCheck(token) {
     return fetch(
-      `${this.baseUrl}/users/me`, 
+      `${this.baseUrl}/users/me`,
       {
         method: 'GET',
-        headers: { 
+        credentials: 'include',
+        headers: {
           "Content-Type": "application/json",
           "Authorization" : `Bearer ${token}`
         }
@@ -55,5 +58,5 @@ class Auth {
 
 }
 
-const auth = new Auth(authSettings.baseUrl);
+const auth = new Auth(apiSettings.baseUrl);
 export default auth;
