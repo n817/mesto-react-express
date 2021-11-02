@@ -8,7 +8,7 @@ const apiSettings = {
 };
 
 const authSettings = {
-  baseUrl: 'https://auth.nomoreparties.co' 
+  baseUrl: 'http://api.mesto.n817.nomoredomains.xyz'
 };
 
 export {apiSettings, authSettings};
