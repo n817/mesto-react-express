@@ -13,6 +13,13 @@ router.use(requestLogger); // подключаем логгер запросов
 
 router.use(cors); // подключаем механизм безопасности браузера cors
 
+// краш-тест сервера
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 // проводит авторизацию пользователя
 router.post('/signin', celebrate({
   body: Joi.object().keys({
