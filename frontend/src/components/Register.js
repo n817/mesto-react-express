@@ -3,12 +3,12 @@ import IdentityForm from "./IdentityForm";
 
 function Register({ onRegister }) {
   return(
-    <IdentityForm 
+    <IdentityForm
       title="Регистрация"
       buttonText="Зарегистрироваться"
       onFormSubmit={onRegister}
     >
-      <Link to="/sign-in" className="form__link">
+      <Link to="/signin" className="form__link">
         Уже зарегистрированы? Войти
       </Link>
     </IdentityForm>
