@@ -1,5 +1,5 @@
 const apiSettings = {
-  baseUrl: 'https://api.mesto.n817.nomoredomains.xyz',
+  baseUrl: 'localhost:3000',
   headers: {
     'Content-Type': 'application/json'
   }

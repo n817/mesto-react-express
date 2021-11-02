@@ -3,6 +3,7 @@ const allowedCors = [
   'https://mesto.n817.nomoredomains.xyz',
   'http://mesto.n817.nomoredomains.xyz',
   'localhost:3000',
+  'localhost:3001',
 ];
 
 // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
@@ -12,23 +13,18 @@ const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 module.exports = (req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
-  res.message(`Источник запроса: ${origin} Тип запроса: ${method}`);
   const requestHeaders = req.headers['access-control-request-headers']; // сохраняем список заголовков исходного запроса
 
   if (allowedCors.includes(origin)) {
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
-    // eslint-disable-next-line no-console
-    res.message(`Устанавливаем заголовок: ${res.header}`);
   }
 
   // Если это предварительный запрос, добавляем нужные заголовки
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS); // разрешаем кросс-доменные запросы любых типов (по умолчанию)
     res.header('Access-Control-Allow-Headers', requestHeaders); // разрешаем кросс-доменные запросы с этими заголовками
-    // eslint-disable-next-line no-console
-    res.message(`Устанавливаем заголовок: ${res.header}`);
     return res.end(); // завершаем обработку запроса и возвращаем результат клиенту
   }
 
