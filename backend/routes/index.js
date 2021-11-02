@@ -7,8 +7,11 @@ const cardsRouter = require('./cards');
 const { urlRegEx } = require('../configs');
 const NotFoundError = require('../errors/NotFoundError');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
+const cors = require('../middlewares/cors');
 
 router.use(requestLogger); // подключаем логгер запросов
+
+router.use(cors); // подключаем механизм безопасности браузера cors
 
 // проводит авторизацию пользователя
 router.post('/signin', celebrate({
