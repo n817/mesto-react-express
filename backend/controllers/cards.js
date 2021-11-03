@@ -6,17 +6,15 @@ const NotFoundError = require('../errors/NotFoundError');
 // возвращает все карточки
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.status(200).send(cards))
-    .catch((err) => {
-      next(err);
-    });
+    .then((cardsData) => res.status(200).send(cardsData))
+    .catch(next); // эквивалентна catch(err => next(err))
 };
 
 // создаёт карточку
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.status(201).send(card))
+    .then((cardData) => res.status(201).send(cardData))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new CastError(`При создании карточки переданы некорректные данные: ${err.message}`));
@@ -36,9 +34,7 @@ const deleteCard = (req, res, next) => {
         throw new ForbiddenError('запрещено удалять карточки других пользователей');
       } else {
         Card.findByIdAndRemove(req.params.cardId)
-          .then((data) => res
-            .status(200)
-            .send({ data, message: 'Карточка удалена' }))
+          .then((cardData) => res.status(200).send(cardData))
           .catch(next);
       }
     })
@@ -60,9 +56,7 @@ const putCardLike = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('не найдена карточка по заданному id');
     })
-    .then((card) => res
-      .status(200)
-      .send({ data: card, message: 'Лайк поставлен' }))
+    .then((cardData) => res.status(200).send(cardData))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new CastError('Невалидный id карточки'));
@@ -81,9 +75,7 @@ const removeCardLike = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('не найдена карточка по заданному id');
     })
-    .then((card) => res
-      .status(200)
-      .send({ data: card, message: 'Лайк убран' }))
+    .then((cardData) => res.status(200).send(cardData))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new CastError('Невалидный id карточки'));

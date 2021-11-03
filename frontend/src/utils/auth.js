@@ -1,8 +1,9 @@
 import { apiSettings } from "./utils";
 
 class Auth {
-  constructor(baseUrl) {
-    this.baseUrl = baseUrl;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
   }
 
   // Проверка ответа сервера
@@ -10,16 +11,16 @@ class Auth {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`произошла ошибка: ${res.status}`);
   }
 
   // Регистрация
   signUp({ email, password }) {
-    return fetch(`${this.baseUrl}/signup`,
+    return fetch(`${this._baseUrl}/signup`,
       {
         method: 'POST',
         credentials: 'include',
-        headers: {"Content-Type": "application/json"},
+        headers: this._headers,
         body: JSON.stringify({ password, email })
       }
     )
@@ -29,11 +30,11 @@ class Auth {
   // Авторизация
   signIn({ email, password }) {
     return fetch(
-      `${this.baseUrl}/signin`,
+      `${this._baseUrl}/signin`,
       {
         method: 'POST',
         credentials: 'include',
-        headers: {"Content-Type": "application/json"},
+        headers: this._headers,
         body: JSON.stringify({password, email})
       }
     )
@@ -43,7 +44,7 @@ class Auth {
   // Проверка токена
   tokenCheck(token) {
     return fetch(
-      `${this.baseUrl}/users/me`,
+      `${this._baseUrl}/users/me`,
       {
         method: 'GET',
         credentials: 'include',
@@ -58,5 +59,5 @@ class Auth {
 
 }
 
-const auth = new Auth(apiSettings.baseUrl);
+const auth = new Auth(apiSettings);
 export default auth;

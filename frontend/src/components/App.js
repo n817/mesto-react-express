@@ -32,14 +32,15 @@ function App() {
   const [cards, setCards] = useState([]);
   const history = useHistory();
 
-  /*
-  // Если в локальном хранилище есть токен, то проверяем его валидность на сервере и авторизуем пользователя
+    // Если в локальном хранилище есть токен, то проверяем его валидность на сервере и авторизуем пользователя
   useEffect(() => {
     const currentToken = localStorage.getItem('token');
+    console.log(`в локальном хранилище есть токен: ${currentToken}`);
     if (currentToken) {
       auth.tokenCheck(currentToken)
       .then((res) => {
-        setEmail(res.data.email);
+        console.log(res);
+        setEmail(res.email);
         setLoggedIn(true);
         history.push('/');
       })
@@ -49,11 +50,11 @@ function App() {
       });
     }
   }, [history]);
-  */
 
   function handleSignUp({ email, password }) {
     auth.signUp({ email, password })
       .then((res) => {
+        console.log(res);
         if (res.data) {
           setRegStatusError(false);
           setIsInfoTooltipOpen(true);
@@ -63,32 +64,34 @@ function App() {
       .catch((err) => {
         setRegStatusError(err);
         setIsInfoTooltipOpen(true);
-        console.log(err);
+        console.log(`При регистрации ${err}`);
       })
   }
 
   function handleSignIn({ email, password }) {
     auth.signIn({ email, password }) // test@test.com, 12345678
       .then((res) => {
+        console.log(res);
         if (res) {
           setLoggedIn(true);
-          setEmail(email);
-          // localStorage.setItem('token', res.token);
+          setEmail(res.email);
+          localStorage.setItem('token', res.token);
+          console.log(`в локальном хранилище есть токен: ${res.token}`);
           history.push('/');
         }
       })
       .catch((err) => {
         setRegStatusError(err);
         setIsInfoTooltipOpen(true);
-        console.log(err);
+        console.log(`При авторизации ${err}`);
       })
   }
 
   function handleSignOut() {
     setLoggedIn(false);
     setEmail('');
-    // localStorage.removeItem('token');
-    // console.log(localStorage.getItem('token'));
+    localStorage.removeItem('token');
+    console.log(localStorage.getItem('token'));
   }
 
   function handleEditAvatarClick(){
@@ -122,7 +125,7 @@ function App() {
       setCurrentUser(res);
       })
     .catch((err) => {
-       console.log(err);
+       console.log(`При загрузке данных пользователя ${err}`);
       });
 
   }, []);
@@ -134,11 +137,10 @@ function App() {
       setCards(res);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`При загрузке карточек с сервера ${err}`);
     });
 
   }, []);
-
 
   function handleUpdateUser({name, about}) {
     api.setUserInfo({name, about})
@@ -147,7 +149,7 @@ function App() {
       closeAllPopups();
       })
     .catch((err) => {
-       console.log(err);
+       console.log(`При обновлении данных пользователя ${err}`);
       })
   }
 
@@ -158,7 +160,7 @@ function App() {
       closeAllPopups();
       })
     .catch((err) => {
-       console.log(err);
+       console.log(`При обновлении аватара пользователя ${err}`);
       })
   }
 
@@ -169,7 +171,7 @@ function App() {
       closeAllPopups();
       })
     .catch((err) => {
-       console.log(err);
+       console.log(`При добавлении карточки ${err}`);
       })
   }
 
@@ -184,7 +186,7 @@ function App() {
 	    setCards((cards) => cards.map((i) => i._id === card._id ? newCard : i));
 	  })
     .catch((err) => {
-      console.log(err);
+      console.log(`При обработке лайка ${err}`);
      })
   }
 
@@ -195,7 +197,7 @@ function App() {
       setCards(cards.filter((i) => i._id !== card._id));
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`При удалении карточки ${err}`);
      })
   }
 

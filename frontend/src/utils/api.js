@@ -1,7 +1,7 @@
 import { apiSettings } from "./utils";
 
 class Api {
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
   }
@@ -11,7 +11,7 @@ class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`произошла ошибка: ${res.status}`);
   }
 
   // Получение информации о пользователе с сервера

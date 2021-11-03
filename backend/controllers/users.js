@@ -12,11 +12,11 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
-    .then((user) => {
-      // успешная аутентификация, пользователь в переменной user
+    .then((userData) => {
+      // успешная аутентификация, пользователь в переменной userData
       // создадим и вернем токен
       const token = jwt.sign(
-        { _id: user._id },
+        { _id: userData._id },
         JWT_SECRET,
         { expiresIn: '7d' },
       );
@@ -27,7 +27,7 @@ const login = (req, res, next) => {
           httpOnly: true,
         })
         .status(200)
-        .send({ token, id: user._id });
+        .send(userData);
     })
     .catch(next); // эквивалентна catch(err => next(err))
 };
@@ -93,7 +93,7 @@ const createUser = (req, res, next) => {
     })
     // создаем пользователя
     .then((hash) => User.create({ email, password: hash }))
-    .then((userData) => res.status(201).send({ message: `пользователь id ${userData._id} успешно создан` }))
+    .then((userData) => res.status(201).send(userData))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(`При создании пользователя переданы некорректные данные: ${err.message}`));
