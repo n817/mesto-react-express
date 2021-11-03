@@ -57,6 +57,12 @@ class Auth {
     .then(this._checkResponse);
   }
 
+  // Выход из профиля
+  signOut() {
+    return fetch(`${this.baseUrl}/users/signout`, { credentials: 'include' })
+    .then(this._checkResponse);
+  }
+
 }
 
 const auth = new Auth(apiSettings);

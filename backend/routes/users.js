@@ -8,6 +8,7 @@ const {
   getMe,
   updateAvatar,
   updateProfile,
+  signOut,
 } = require('../controllers/users');
 
 // возвращает всех пользователей
@@ -37,5 +38,8 @@ router.patch('/me', celebrate({
     about: Joi.string().required().min(2).max(30),
   }),
 }), updateProfile);
+
+// выходит из профиля и чистит куки
+router.get('/signout', signOut);
 
 module.exports = router;

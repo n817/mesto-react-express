@@ -142,6 +142,9 @@ const updateProfile = (req, res, next) => {
     });
 };
 
+// выходит из профиля и чистит куки
+const signOut = (req, res) => res.clearCookie('jwt').status(200);
+
 module.exports = {
   login,
   getUsers,
@@ -150,4 +153,5 @@ module.exports = {
   createUser,
   updateAvatar,
   updateProfile,
+  signOut,
 };
