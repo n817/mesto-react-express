@@ -60,7 +60,7 @@ class Auth {
   // Выход из профиля
   signOut() {
     return fetch(
-      `${this.baseUrl}/signout`,
+      `${this.baseUrl}/users/signout`,
       {
         method: 'GET',
         credentials: 'include',

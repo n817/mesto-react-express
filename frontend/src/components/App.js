@@ -53,6 +53,25 @@ function App() {
   }, [history]);
   */
 
+  // Загружаем данные пользователя и карточки
+  React.useEffect(() => {
+    Promise.all(
+      [
+        api.getUserInfo(),
+        api.getCardList()
+      ])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setLoggedIn(true);
+        setEmail(userData.email);
+        setCards(cardsData);
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(`При загрузке данных пользователя или карточек ${err}`);
+      });
+  }, [history]);
+
   function handleSignUp({ email, password }) {
     auth.signUp({ email, password })
       .then((res) => {
@@ -77,6 +96,7 @@ function App() {
         if (res) {
           setLoggedIn(true);
           setEmail(res.email);
+          getData();
           // localStorage.setItem('token', res.token);
           history.push('/');
         }
@@ -87,6 +107,23 @@ function App() {
         console.log(`При авторизации ${err}`);
       })
   }
+
+  // Функция загрузки данных пользователя и карточек при логине
+  function getData() {
+    Promise.all(
+      [
+        api.getUserInfo(),
+        api.getCardList()
+      ])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setCards(cardsData);
+      })
+      .catch((err) => {
+        console.log('Promise.all', err);
+      });
+  }
+
 
   function handleSignOut() {
     auth.signOut()
@@ -121,6 +158,7 @@ function App() {
     setSelectedCard({});
   }
 
+  /*
   // Загружаем данные пользователя с сервера
   useEffect(() => {
     api.getUserInfo()
@@ -144,6 +182,7 @@ function App() {
     });
 
   }, []);
+*/
 
   function handleUpdateUser({name, about}) {
     api.setUserInfo({name, about})

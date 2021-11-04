@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi, errors } = require('celebrate');
-const { login, createUser, signOut } = require('../controllers/users');
+const { login, createUser } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 const usersRouter = require('./users');
 const cardsRouter = require('./cards');
@@ -43,7 +43,6 @@ router.use(auth); // мидлвэр авторизации (всем роута�
 
 router.use('/users', usersRouter); // localhost:PORT/users + usersRouter
 router.use('/cards', cardsRouter); // localhost:PORT/cards + cardsRouter
-router.post('/signout', signOut); // выходит из профиля и чистит куки
 
 router.use(errorLogger); // подключаем логгер ошибок
 

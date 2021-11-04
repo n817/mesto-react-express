@@ -8,6 +8,7 @@ const {
   getMe,
   updateAvatar,
   updateProfile,
+  signOut,
 } = require('../controllers/users');
 
 // возвращает всех пользователей
@@ -15,6 +16,8 @@ router.get('/', getUsers);
 
 // возвращает информацию о текущем пользователе
 router.get('/me', getMe);
+
+router.get('/signout', signOut); // выходит из профиля и чистит куки
 
 // возвращает пользователя по _id
 router.get('/:userId', celebrate({
