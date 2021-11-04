@@ -27,7 +27,7 @@ const login = (req, res, next) => {
           httpOnly: true,
         })
         .status(200)
-        .send({ token, userData });
+        .send(userData);
     })
     .catch(next); // эквивалентна catch(err => next(err))
 };

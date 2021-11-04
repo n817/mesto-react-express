@@ -77,9 +77,8 @@ function App() {
         if (res) {
           setLoggedIn(true);
           setEmail(res.email);
-          console.log(res);
-          console.log(res.email);
-          localStorage.setItem('token', res.token);
+          setCurrentUser(res);
+          // localStorage.setItem('token', res.token);
           history.push('/');
         }
       })
@@ -95,8 +94,8 @@ function App() {
       .catch(err => console.log(`При выходе ${err}`))
     setLoggedIn(false);
     setEmail('');
-    localStorage.removeItem('token');
-    console.log(localStorage.getItem('token'));
+    // localStorage.removeItem('token');
+    // console.log(localStorage.getItem('token'));
   }
 
   function handleEditAvatarClick(){
