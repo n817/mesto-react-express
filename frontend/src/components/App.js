@@ -77,7 +77,6 @@ function App() {
         if (res) {
           setLoggedIn(true);
           setEmail(res.email);
-          setCurrentUser(res);
           // localStorage.setItem('token', res.token);
           history.push('/');
         }
@@ -182,6 +181,7 @@ function App() {
   // Обработка лайков
   function handleCardLike(card) {
 	  // Проверяем, есть ли уже лайк на этой карточке
+    console.log(currentUser._id);
 	  const isLiked = card.likes.some(i => i._id === currentUser._id);
 	  // Отправляем запрос в API и получаем обновлённые данные карточки
 	  api.changeLikeCardStatus({isLiked, cardId: card._id})
