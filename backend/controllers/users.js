@@ -1,11 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { SALT_ROUND, JWT_SECRET } = require('../configs');
+const { SALT_ROUND } = require('../configs');
 const User = require('../models/user');
 const CastError = require('../errors/CastError');
 const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 const ValidationError = require('../errors/ValidationError');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 // проводит аутентификацию пользователя
 const login = (req, res, next) => {
@@ -17,7 +19,7 @@ const login = (req, res, next) => {
       // создадим и вернем токен
       const token = jwt.sign(
         { _id: userData._id },
-        JWT_SECRET,
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
       // отправим токен, браузер сохранит его в куках

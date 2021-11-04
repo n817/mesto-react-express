@@ -1,5 +1,4 @@
 const SALT_ROUND = 10;
-const { JWT_SECRET = 'dev-key' } = process.env;
 
 // eslint-disable-next-line no-useless-escape
 const urlRegEx = /^https?:\/\/(www.)?([\da-z\.-]+)\.([a-z\.]{2,6})([\da-z\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*)*\#?/;
@@ -17,4 +16,4 @@ https?:\/\/ - начинается с http:// или https://;
 На конце пути может стоять решётка #;
 */
 
-module.exports = { SALT_ROUND, JWT_SECRET, urlRegEx };
+module.exports = { SALT_ROUND, urlRegEx };
