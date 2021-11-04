@@ -32,39 +32,18 @@ function App() {
   const [cards, setCards] = useState([]);
   const history = useHistory();
 
-/*
-  // Если в локальном хранилище есть токен, то проверяем его валидность на сервере и авторизуем пользователя
-  useEffect(() => {
-    const currentToken = localStorage.getItem('token');
-    if (currentToken) {
-      console.log(`в локальном хранилище есть токен: ${currentToken}`);
-      auth.tokenCheck(currentToken)
-      .then((res) => {
-        console.log(res);
-        setEmail(res.email);
-        setLoggedIn(true);
-        history.push('/');
-      })
-      .catch((err) => {
-        console.log(err);
-        localStorage.removeItem('token');
-      });
-    }
-  }, [history]);
-  */
-
-  // Загружаем данные пользователя и карточки
+  // useEffect загрузки данных пользователя и карточки
   React.useEffect(() => {
     Promise.all(
       [
         api.getUserInfo(),
         api.getCardList()
       ])
-      .then(([userData, cardsData]) => {
-        setCurrentUser(userData);
+      .then(([user, cards]) => {
+        setCurrentUser(user);
         setLoggedIn(true);
-        setEmail(userData.email);
-        setCards(cardsData);
+        setEmail(user.email);
+        setCards(cards);
         history.push('/');
       })
       .catch((err) => {
@@ -72,10 +51,10 @@ function App() {
       });
   }, [history]);
 
+  // Регистрация
   function handleSignUp({ email, password }) {
     auth.signUp({ email, password })
       .then((res) => {
-        console.log(res);
         if (res.data) {
           setRegStatusError(false);
           setIsInfoTooltipOpen(true);
@@ -89,15 +68,14 @@ function App() {
       })
   }
 
+  // Авторизация
   function handleSignIn({ email, password }) {
     auth.signIn({ email, password }) // test@test.com, 12345678
       .then((res) => {
-        console.log(res);
         if (res) {
           setLoggedIn(true);
           setEmail(res.email);
           getData();
-          // localStorage.setItem('token', res.token);
           history.push('/');
         }
       })
@@ -108,7 +86,7 @@ function App() {
       })
   }
 
-  // Функция загрузки данных пользователя и карточек при логине
+  // Загрузка данных пользователя и карточек
   function getData() {
     Promise.all(
       [
@@ -124,14 +102,12 @@ function App() {
       });
   }
 
-
+  // Выход из учетной записи пользователя
   function handleSignOut() {
     auth.signOut()
-      .catch(err => console.log(`При выходе ${err}`))
+      .catch(err => console.log(`При выходе ${err}`));
     setLoggedIn(false);
-    setEmail('');
-    // localStorage.removeItem('token');
-    // console.log(localStorage.getItem('token'));
+    setEmail('')
   }
 
   function handleEditAvatarClick(){
@@ -157,32 +133,6 @@ function App() {
     setIsInfoTooltipOpen(false);
     setSelectedCard({});
   }
-
-  /*
-  // Загружаем данные пользователя с сервера
-  useEffect(() => {
-    api.getUserInfo()
-    .then((res) => {
-      setCurrentUser(res);
-      })
-    .catch((err) => {
-       console.log(`При загрузке данных пользователя ${err}`);
-      });
-
-  }, []);
-
-  // Загружаем карточки с сервера
-  useEffect(() => {
-    api.getCardList()
-    .then((res) => {
-      setCards(res);
-    })
-    .catch((err) => {
-      console.log(`При загрузке карточек с сервера ${err}`);
-    });
-
-  }, []);
-*/
 
   function handleUpdateUser({name, about}) {
     api.setUserInfo({name, about})
@@ -220,8 +170,7 @@ function App() {
   // Обработка лайков
   function handleCardLike(card) {
 	  // Проверяем, есть ли уже лайк на этой карточке
-    console.log(currentUser._id);
-	  const isLiked = card.likes.some(i => i._id === currentUser._id);
+	  const isLiked = card.likes.some(i => i === currentUser._id);
 	  // Отправляем запрос в API и получаем обновлённые данные карточки
 	  api.changeLikeCardStatus({isLiked, cardId: card._id})
     .then((newCard) => {

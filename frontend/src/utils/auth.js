@@ -41,22 +41,6 @@ class Auth {
     .then(this._checkResponse);
   }
 
-  // Проверка токена
-  tokenCheck(token) {
-    return fetch(
-      `${this._baseUrl}/users/me`,
-      {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization" : `Bearer ${token}`
-        }
-      }
-    )
-    .then(this._checkResponse);
-  }
-
   // Выход из профиля
   signOut() {
     return fetch(
