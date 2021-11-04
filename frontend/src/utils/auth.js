@@ -59,7 +59,13 @@ class Auth {
 
   // Выход из профиля
   signOut() {
-    return fetch(`${this.baseUrl}/users/signout`, { credentials: 'include' })
+    return fetch(
+      `${this.baseUrl}/signout`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: this._headers,
+      })
     .then(this._checkResponse);
   }
 

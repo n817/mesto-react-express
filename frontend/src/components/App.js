@@ -32,7 +32,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const history = useHistory();
 
-  /*
+/*
   // Если в локальном хранилище есть токен, то проверяем его валидность на сервере и авторизуем пользователя
   useEffect(() => {
     const currentToken = localStorage.getItem('token');
@@ -79,7 +79,7 @@ function App() {
           setEmail(res.email);
           console.log(res);
           console.log(res.email);
-          // localStorage.setItem('token', res.token);
+          localStorage.setItem('token', res.token);
           history.push('/');
         }
       })
@@ -95,8 +95,8 @@ function App() {
       .catch(err => console.log(`При выходе ${err}`))
     setLoggedIn(false);
     setEmail('');
-    // localStorage.removeItem('token');
-    // console.log(localStorage.getItem('token'));
+    localStorage.removeItem('token');
+    console.log(localStorage.getItem('token'));
   }
 
   function handleEditAvatarClick(){

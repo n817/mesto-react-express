@@ -27,7 +27,7 @@ const login = (req, res, next) => {
           httpOnly: true,
         })
         .status(200)
-        .send(userData);
+        .send({ token, userData });
     })
     .catch(next); // эквивалентна catch(err => next(err))
 };
@@ -143,7 +143,7 @@ const updateProfile = (req, res, next) => {
 };
 
 // выходит из профиля и чистит куки
-const signOut = (req, res) => res.clearCookie('jwt').status(200);
+const signOut = (req, res) => res.clearCookie('jwt').status(200).send({ message: 'Пользователь успешно разлогинен, куки удалены' });
 
 module.exports = {
   login,
