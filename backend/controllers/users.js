@@ -22,14 +22,20 @@ const login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      // отправим токен, браузер сохранит его в куках
       res
+        // отправим токен, браузер сохранит его в куках
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7, // cookie будут храниться 7 дней
           httpOnly: true,
         })
+        // Отправляем ответ от сервера, исключаем хеш пароля
         .status(200)
-        .send(userData);
+        .send({
+          name: userData.name,
+          about: userData.about,
+          avatar: userData.avatar,
+          email: userData.email,
+        });
     })
     .catch(next); // эквивалентна catch(err => next(err))
 };
@@ -80,10 +86,7 @@ const getMe = (req, res, next) => {
 // создаёт пользователя
 const createUser = (req, res, next) => {
   const { email, password } = req.body;
-  // проверяем, переданы ли логин и пароль
-  if (!email || !password) {
-    throw new CastError('При создании пользователя переданы некорректные данные');
-  }
+
   // проверяем, существует ли уже пользователь с таким email
   // если нет, то возвращаем хэш пароля
   User.findOne({ email })
@@ -95,7 +98,16 @@ const createUser = (req, res, next) => {
     })
     // создаем пользователя
     .then((hash) => User.create({ email, password: hash }))
-    .then((userData) => res.status(201).send(userData))
+    .then((userData) => {
+      res
+        .status(201)
+        .send({
+          name: userData.name,
+          about: userData.about,
+          avatar: userData.avatar,
+          email: userData.email,
+        });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(`При создании пользователя переданы некорректные данные: ${err.message}`));
