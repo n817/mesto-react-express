@@ -25,8 +25,9 @@ const login = (req, res, next) => {
       res
         // отправим токен, браузер сохранит его в куках
         .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7, // cookie будут храниться 7 дней
           httpOnly: true,
+          path: '/',
+          domain: '.mesto.n817.nomoredomains.xyz',
         })
         // Отправляем ответ от сервера, исключаем хеш пароля
         .status(200)
@@ -159,7 +160,11 @@ const updateProfile = (req, res, next) => {
 // выходит из профиля и чистит куки
 const signOut = (req, res) => {
   res
-    .clearCookie('jwt')
+    .clearCookie('jwt', {
+      httpOnly: true,
+      path: '/',
+      domain: '.mesto.n817.nomoredomains.xyz',
+    })
     .status(200)
     .send({ message: 'Пользователь успешно разлогинен, куки удалены' });
 };

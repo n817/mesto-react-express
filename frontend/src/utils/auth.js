@@ -48,9 +48,14 @@ class Auth {
       {
         method: 'GET',
         credentials: 'include',
-        headers: this._headers,
       })
-    .then(this._checkResponse);
+    .then((res) => {
+      if (res.ok) {
+        return res;
+      }
+      return Promise.reject(`произошла ошибка: ${res.status}`);
+    }
+    );
   }
 
 }

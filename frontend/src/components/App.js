@@ -105,6 +105,7 @@ function App() {
   // Выход из учетной записи пользователя
   function handleSignOut() {
     auth.signOut()
+      .then((res) => console.log(res.status))
       .catch(err => console.log(`При выходе ${err}`));
     setLoggedIn(false);
     setEmail('')
