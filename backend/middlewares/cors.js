@@ -1,9 +1,8 @@
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'https://mesto.n817.nomoredomains.xyz',
-  'http://mesto.n817.nomoredomains.xyz',
+  'https://mesto.n817.ru',
+  'https://www.mesto.n817.ru',
   'localhost:3000',
-  'localhost:3001',
 ];
 
 // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
